@@ -1,0 +1,38 @@
+Finished 4070 requests
+
+
+Server Software:        gunicorn
+Server Hostname:        localhost
+Server Port:            8000
+
+Document Path:          /
+Document Length:        19 bytes
+
+Concurrency Level:      2
+Time taken for tests:   1.000 seconds
+Complete requests:      4070
+Failed requests:        0
+Total transferred:      643218 bytes
+HTML transferred:       77349 bytes
+Requests per second:    4069.43 [#/sec] (mean)
+Time per request:       0.491 [ms] (mean)
+Time per request:       0.246 [ms] (mean, across all concurrent requests)
+Transfer rate:          628.06 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.3      0      16
+Processing:     0    0   0.4      0      17
+Waiting:        0    0   0.3      0      17
+Total:          0    0   0.5      0      20
+
+Percentage of the requests served within a certain time (ms)
+  50%      0
+  66%      0
+  75%      0
+  80%      0
+  90%      1
+  95%      1
+  98%      1
+  99%      1
+ 100%     20 (longest request)

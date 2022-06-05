@@ -1,0 +1,75 @@
+version: '3.3'
+
+services:
+
+  postgre_sql:
+    build:
+      context: postgreSQL
+      dockerfile: Dockerfile
+    container_name: postgre_sql
+    environment:
+      POSTGRES_USER: "music"
+      POSTGRES_DB: "music_db"
+      POSTGRES_PASSWORD: "123456"
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - pgdata:/var/lib/posgresql/data
+
+    networks:
+      - mai-network
+
+    ports:
+      - "5432:5432" # порт PostgreSQL
+
+    restart: always
+
+  nginx_server:
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    container_name: nginx_server
+    
+    restart: always
+
+    volumes:
+      - ./nginx/public:/home
+
+    ports:
+      - "80:80" # порт nginx
+
+    networks:
+      - mai-network
+
+  django_server:
+    build:
+      context: dj_back
+      dockerfile: Dockerfile
+    container_name: django_server
+   
+    restart: always
+
+    ports:
+      - "8001:8001" # порт Django
+
+    networks:
+      - mai-network
+
+    depends_on:
+      - postgre_sql
+      - nginx_server
+    
+    #command: sh -c "python3 django_web/manage.py runserver 0.0.0.0:8000"
+
+    
+    command: sh -c "python3 django_web/manage.py migrate &&
+                    python3 django_web/manage.py shell < script.py &&
+                    python3 django_web/manage.py runserver 0.0.0.0:8001"
+    
+
+volumes:
+  pgdata:
+
+networks:
+  mai-network:
+    driver: "bridge"
+    external: false
